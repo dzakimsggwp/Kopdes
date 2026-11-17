@@ -37,25 +37,6 @@ public class Membership {
     return memberPassword;
     }
 
-    public Membership newMember(Scanner in) {
-        System.out.println("\n===== PENDAFTARAN MEMBER =====");
-        System.out.println("Masukkan nama anda: ");
-        memberName = in.nextLine();
-        System.out.println("Masukkan password: ");
-        memberPassword = in.nextLine();
-        System.out.println("Masukkan nomor telepon: ");
-        memberPhone = in.nextLine();
-        System.out.println("Masukkan alamat email: ");
-        memberEmail = in.nextLine();
-        memberId = newId();
-        return new Membership(
-        memberId,
-        memberName,
-        memberEmail,
-        memberPhone,
-        memberPassword);
-    }
-
     public String newId() {
         String id = "";
         for (int i = 0; i < 3; i++) {
@@ -71,12 +52,13 @@ public class Membership {
     }
 
     public void displayMember() {
+        System.out.println("\n===== INFORMASI MEMBER =====");
         System.out.println("ID Member: " + memberId);
         System.out.println("Nama Member: " + memberName);
         System.out.println("Email Member: " + memberEmail);
         System.out.println("Nomor Telepon Member: " + memberPhone);
         System.out.println("Password Member: " + memberPassword);
-        System.out.println("Poin Member: " + memberPoints);
+        System.out.println("Poin Member: " + memberPoints + "\n");
     }
 
     public void addPoints(int points) {
@@ -92,14 +74,14 @@ public class Membership {
         }
     }
 
-    public void updateMember() {
-        System.out.println("Masukkan nama baru: ");
+    public void updateMember(Scanner in) {
+        System.out.print("Masukkan nama baru: ");
         memberName = in.nextLine();
-        System.out.println("Masukkan password baru: ");
+        System.out.print("Masukkan password baru: ");
         memberPassword = in.nextLine();
-        System.out.println("Masukkan nomor telepon baru: ");
+        System.out.print("Masukkan nomor telepon baru: ");
         memberPhone = in.nextLine();
-        System.out.println("Masukkan alamat email baru: ");
+        System.out.print("Masukkan alamat email baru: ");
         memberEmail = in.nextLine();
     }
 
