@@ -18,6 +18,9 @@ public class Membership {
         this.memberPassword = memberPassword;
     }
 
+    public Membership() {
+    }
+
     public String getMemberId() {
         return memberId;
     }
