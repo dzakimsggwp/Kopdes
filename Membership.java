@@ -1,10 +1,9 @@
 import java.util.*;
 
 public class Membership {
-    Scanner in = new Scanner(System.in);
     Random random =  new Random();
 
-    private String memberId = "";
+    private String memberId;
     private String memberName;
     private String memberEmail;
     private String memberPhone;
@@ -31,14 +30,15 @@ public class Membership {
     public String getMemberPhone() {
         return memberPhone;
     }
-    public String getMemberAddress() {
-        return memberAddress;
-    }
-    public String getMemberPoints() {
+    public int getMemberPoints() {
         return memberPoints;
     }
+    public String getMemberPassword() {
+    return memberPassword;
+    }
 
-    public void newMember() {
+    public Membership newMember(Scanner in) {
+        System.out.println("\n===== PENDAFTARAN MEMBER =====");
         System.out.println("Masukkan nama anda: ");
         memberName = in.nextLine();
         System.out.println("Masukkan password: ");
@@ -48,19 +48,26 @@ public class Membership {
         System.out.println("Masukkan alamat email: ");
         memberEmail = in.nextLine();
         memberId = newId();
+        return new Membership(
+        memberId,
+        memberName,
+        memberEmail,
+        memberPhone,
+        memberPassword);
     }
 
     public String newId() {
+        String id = "";
         for (int i = 0; i < 3; i++) {
         char huruf = (char) (random.nextInt(26) + 'A');
-        memberId += huruf;
+        id += huruf;
         }
 
         for (int i = 0; i < 3; i++) {
             int angka = random.nextInt(10);
-            memberId += angka;
+            id += angka;
         }
-        return memberId;
+        return id;
     }
 
     public void displayMember() {
@@ -96,13 +103,24 @@ public class Membership {
         memberEmail = in.nextLine();
     }
 
-    public void deleteMember() {
-        memberId = "";
-        memberName = "";
-        memberEmail = "";
-        memberPhone = "";
-        memberPassword = "";
-        memberPoints = 0;
+public static int deleteMember(Membership[] daftarMember, int jumlahMember, String id) {
+    int index = -1;
+    for (int i = 0; i < jumlahMember; i++) {
+        if (daftarMember[i].getMemberId().equalsIgnoreCase(id)) {
+            index = i;
+            break;
+        }
     }
+    if (index == -1) {
+        System.out.println("Member tidak ditemukan!");
+        return jumlahMember;
+    }
+    for (int i = index; i < jumlahMember - 1; i++) {
+        daftarMember[i] = daftarMember[i + 1];
+    }
+    daftarMember[jumlahMember - 1] = null;
+    System.out.println("Member berhasil dihapus!");
+    return jumlahMember - 1;
+    }   
 
 }
