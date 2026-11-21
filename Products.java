@@ -88,7 +88,6 @@ public class Products {
                 continue;
             }
 
-            // kalau produk sudah ada di keranjang, tambah jumlahnya saja
             boolean sudahAda = false;
             for (int i = 0; i < jumlahItem; i++) {
                 if (keranjang[i].getKode().equalsIgnoreCase(p.getKode())) {
@@ -97,7 +96,6 @@ public class Products {
                     break;
                 }
             }
-            // kalau belum ada, simpan sebagai item baru
             if (!sudahAda) {
                 keranjang[jumlahItem] = p;
                 jumlahBeli[jumlahItem] = qty;
