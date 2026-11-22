@@ -5,18 +5,21 @@ public class Main {
         Scanner in = new Scanner(System.in);
         Membership[] daftarMember = new Membership[100];
         int jumlahMember = 0;
+        Membership memberAktif = null;
         boolean login = false;
         
         for (;;) {
-            System.out.println("======== KOPERASI DESA MERAH PUTIH ========");
+            System.out.println("\n======== KOPERASI DESA MERAH PUTIH ========");
             System.out.println("1. Daftar Member");
-            System.out.println("2. Login Member");
+            System.out.println("2. Login Member (Lihat Informasi Member)");
             System.out.println("3. Lihat Menu");
             System.out.println("4. Lihat Keranjang");
-            System.out.println("5. Keluar");
+            System.out.println("5. Cek Keranjang dan Checkout");
+            System.out.println("6. Logout");
+            System.out.println("7. Keluar");
             System.out.print("Pilih menu: ");
             int choice = in.nextInt();
-            in.nextLine(); // Consume newline
+            in.nextLine(); 
 
             switch (choice) {
                 case 1:
@@ -40,7 +43,8 @@ public class Main {
                     break;
                 case 2:
                     if (login) {
-                        System.out.println("Anda sudah login!\n");
+                        System.out.println("Anda sudah login!");
+                        memberAktif.displayMember();
                         break;
                     }
                     System.out.print("Masukkan ID Member: ");
@@ -51,13 +55,14 @@ public class Main {
                     for (int i = 0; i < jumlahMember; i++) {
                         if (daftarMember[i].getMemberId().equalsIgnoreCase(id) && daftarMember[i].getMemberPassword().equals(passwordLogin)) {
                             login = true;
-                            System.out.println("Login berhasil!\n");
+                            memberAktif = daftarMember[i];
+                            System.out.println("Login berhasil!");
                             daftarMember[i].displayMember();
                             break;
                         }
                     }
                     if (!login) {
-                        System.out.println("ID Member atau Password salah!\n");
+                        System.out.println("ID Member atau Password salah!");
                     }
                     break;
                 case 3:
@@ -87,14 +92,42 @@ public class Main {
                         daftarProduct1.displayProduct();
                     }
                 }
-                    Products.tambahKeKeranjang(in);
+                    memberAktif.getCart().tambahKeKeranjang(in);
                     
                     break;
 
                 case 4:
-                    Products.lihatKeranjang();
+                    memberAktif.getCart().lihatKeranjang();
+                    break;
+                case 6:
+                    if (!login) {
+                        System.out.println("Anda belum login!");
+                        break;
+                    }
+                    System.out.println("Logout berhasil!");
+                    login = false;
+                    memberAktif = null;
                     break;
                 case 5:
+                    if (memberAktif == null) {
+                        System.out.println("Silakan login terlebih dahulu!");
+                        break;
+                        }
+                    if (memberAktif.getCart().hitungTotal() <= 0) {
+                        System.out.println("Keranjang masih kosong!");
+                        break;
+                    }
+                    Transaction transaksi = new Transaction(memberAktif, memberAktif.getCart());
+
+                    transaksi.checkout();
+
+                    System.out.print("Masukkan uang pembayaran: Rp");
+                    int uangBayar = in.nextInt();
+                    in.nextLine();
+
+                    transaksi.prosesPembayaran(uangBayar);
+                    break;
+                case 7:
                     System.out.println("Terima kasih telah menggunakan layanan kami.");
                     System.exit(0);
                 default:

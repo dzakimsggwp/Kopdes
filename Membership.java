@@ -9,6 +9,7 @@ public class Membership {
     private String memberPhone;
     private String memberPassword;
     private int memberPoints = 0;
+    private Cart cart;
 
     public Membership(String memberId, String memberName, String memberEmail, String memberPhone, String memberPassword) {
         this.memberId = memberId;
@@ -16,9 +17,7 @@ public class Membership {
         this.memberEmail = memberEmail;
         this.memberPhone = memberPhone;
         this.memberPassword = memberPassword;
-    }
-
-    public Membership() {
+        this.cart = new Cart();
     }
 
     public String getMemberId() {
@@ -39,8 +38,11 @@ public class Membership {
     public String getMemberPassword() {
     return memberPassword;
     }
+    public Cart getCart() {
+        return cart;
+    }
 
-    public String newId() {
+    public void newId() {
         String id = "";
         for (int i = 0; i < 3; i++) {
         char huruf = (char) (random.nextInt(26) + 'A');
@@ -51,7 +53,7 @@ public class Membership {
             int angka = random.nextInt(10);
             id += angka;
         }
-        return id;
+        memberId = id;
     }
 
     public void displayMember() {
@@ -61,11 +63,11 @@ public class Membership {
         System.out.println("Email Member: " + memberEmail);
         System.out.println("Nomor Telepon Member: " + memberPhone);
         System.out.println("Password Member: " + memberPassword);
-        System.out.println("Poin Member: " + memberPoints + "\n");
+        System.out.println("Poin Member: " + memberPoints);
     }
 
-    public void addPoints(int points) {
-        memberPoints += points;
+    public void addPoints(int totalBelanja) {
+        memberPoints += totalBelanja / 1000;
     }
 
     public void redeemPoints(int points) {

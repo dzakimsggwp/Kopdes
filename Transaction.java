@@ -1,0 +1,70 @@
+public class Transaction {
+    private String transactionId;
+    private Membership member;
+    private Cart cart;
+    private String status;
+    private int totalBelanja;
+    private int uangBayar;
+    private int kembalian;
+    private static int jumlahTransaksi = 0;
+
+    public Transaction(Membership member, Cart cart) {
+        jumlahTransaksi++;
+
+        this.transactionId = String.format("TRX%03d", jumlahTransaksi);
+        this.member = member;
+        this.cart = cart;
+        this.status = "Belum dibayar";
+    }
+
+    public void checkout() {
+        if (cart.hitungTotal() <= 0) {
+                System.out.println("Keranjang masih kosong!");
+                return;
+        }
+
+        totalBelanja = cart.hitungTotal();
+        displayRincian();
+    }
+
+    public void displayRincian() {
+        System.out.println("\n===== RINCIAN TRANSAKSI =====");
+        System.out.println("ID Transaksi: " + transactionId);
+        System.out.println("Nama Member: " + member.getMembername());
+        System.out.println("Total Belanja: Rp" + totalBelanja);
+        System.out.println("Status: " + status);
+    }
+
+    public boolean prosesPembayaran(int uangBayar) {
+        if (uangBayar < totalBelanja) {
+            System.out.println("Uang pembayaran tidak mencukupi!");
+            return false;
+        }
+
+        this.uangBayar = uangBayar;
+        hitungKembalian();
+        selesaikanTransaksi();
+
+        return true;
+    }
+
+    public void hitungKembalian() {
+        kembalian = uangBayar - totalBelanja;
+    }
+
+    public void selesaikanTransaksi() {
+        int poin = totalBelanja / 1000;
+
+        member.addPoints(totalBelanja);
+        status = "Selesai";
+
+        System.out.println("\n===== PEMBAYARAN BERHASIL =====");
+        System.out.println("Uang Bayar: Rp" + uangBayar);
+        System.out.println("Kembalian: Rp" + kembalian);
+        System.out.println("Poin Diperoleh: " + poin);
+
+        cart.kosongkanKeranjang();
+    }
+    
+
+}

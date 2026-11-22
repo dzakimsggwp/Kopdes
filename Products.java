@@ -1,4 +1,3 @@
-import java.util.Scanner;
 public class Products {
     private String kode;
     private String nama;
@@ -64,73 +63,5 @@ public class Products {
             }
         }
         return null;
-    }
-        public static void tambahKeKeranjang(Scanner in) {
-        System.out.println("\nKetik kode produk untuk dimasukkan ke keranjang (ketik 0 jika selesai)");
-        while (true) {
-            System.out.print("Kode produk: ");
-            String kode = in.nextLine();
-            if (kode.equals("0")) {
-                break;
-            }
-
-            Products p = cariProduk(kode);
-            if (p == null) {
-                System.out.println("Kode produk tidak ditemukan!\n");
-                continue;
-            }
-
-            System.out.print("Jumlah beli: ");
-            int qty = in.nextInt();
-            in.nextLine();
-            if (qty <= 0) {
-                System.out.println("Jumlah harus lebih dari 0!\n");
-                continue;
-            }
-
-            boolean sudahAda = false;
-            for (int i = 0; i < jumlahItem; i++) {
-                if (keranjang[i].getKode().equalsIgnoreCase(p.getKode())) {
-                    jumlahBeli[i] += qty;
-                    sudahAda = true;
-                    break;
-                }
-            }
-            if (!sudahAda) {
-                keranjang[jumlahItem] = p;
-                jumlahBeli[jumlahItem] = qty;
-                jumlahItem++;
-            }
-
-            System.out.println(qty + "x " + p.getNama() + " masuk keranjang!\n");
-        }
-            lihatKeranjang();
-    }
-        public static int hitungTotal() {
-        int total = 0;
-        for (int i = 0; i < jumlahItem; i++) {
-            total += keranjang[i].getHarga() * jumlahBeli[i];
-        }
-        return total;
-    }
-
-    public static void lihatKeranjang() {
-        if (jumlahItem == 0) {
-            System.out.println("Keranjang masih kosong.\n");
-            return;
-        }
-
-        System.out.println("\n========== KERANJANG ==========");
-        for (int i = 0; i < jumlahItem; i++) {
-            int subtotal = keranjang[i].getHarga() * jumlahBeli[i];
-            System.out.printf("%-6s %-26s %3d x Rp%-9d = Rp%d%n",
-                    keranjang[i].getKode(),
-                    keranjang[i].getNama(),
-                    jumlahBeli[i],
-                    keranjang[i].getHarga(),
-                    subtotal);
-        }
-        System.out.println("-----------------------------------");
-        System.out.println("TOTAL BAYAR: Rp" + hitungTotal() + "\n");
     }
 }
