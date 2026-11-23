@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Transaction {
     private String transactionId;
     private Membership member;
@@ -7,6 +9,7 @@ public class Transaction {
     private int uangBayar;
     private int kembalian;
     private static int jumlahTransaksi = 0;
+    Scanner in = new Scanner(System.in);
 
     public Transaction(Membership member, Cart cart) {
         jumlahTransaksi++;
@@ -32,6 +35,9 @@ public class Transaction {
         System.out.println("ID Transaksi: " + transactionId);
         System.out.println("Nama Member: " + member.getMembername());
         System.out.println("Total Belanja: Rp" + totalBelanja);
+        System.out.println("Diskon Poin: Rp" + klaimPoin());
+        totalBelanja -= klaimPoin();
+        System.out.println("Total yang harus dibayar: Rp" + totalBelanja);
         System.out.println("Status: " + status);
     }
 
@@ -65,6 +71,27 @@ public class Transaction {
 
         cart.kosongkanKeranjang();
     }
-    
+
+    public int klaimPoin() {
+        int poin = member.getMemberPoints();
+        if (poin <= 0) {
+            System.out.println("Anda tidak memiliki poin untuk diklaim.");
+            return 0;
+        }
+
+        System.out.println("Anda memiliki " + poin + " poin.");
+        System.out.print("Apakah Anda ingin mengklaim poin ini? (y/n): ");
+        String pilihan = in.nextLine();
+
+        if (pilihan.equalsIgnoreCase("y")) {
+            int diskon = poin * 100; 
+            System.out.println("Poin berhasil diklaim! Anda mendapatkan diskon sebesar Rp" + diskon);
+            member.addPoints(-poin);
+            return diskon;
+        } else {
+            System.out.println("Klaim poin dibatalkan.");
+            return 0;
+        }
+    }
 
 }

@@ -14,9 +14,10 @@ public class Main {
             System.out.println("2. Login Member (Lihat Informasi Member)");
             System.out.println("3. Lihat Menu");
             System.out.println("4. Lihat Keranjang");
-            System.out.println("5. Cek Keranjang dan Checkout");
-            System.out.println("6. Logout");
-            System.out.println("7. Keluar");
+            System.out.println("5. Checkout");
+            System.out.println("6. Klaim Poin");
+            System.out.println("7. Logout");
+            System.out.println("8. Keluar");
             System.out.print("Pilih menu: ");
             int choice = in.nextInt();
             in.nextLine(); 
@@ -99,7 +100,7 @@ public class Main {
                 case 4:
                     memberAktif.getCart().lihatKeranjang();
                     break;
-                case 6:
+                case 7:
                     if (!login) {
                         System.out.println("Anda belum login!");
                         break;
@@ -127,9 +128,11 @@ public class Main {
 
                     transaksi.prosesPembayaran(uangBayar);
                     break;
-                case 7:
+                case 8:
                     System.out.println("Terima kasih telah menggunakan layanan kami.");
-                    System.exit(0);
+                    return;
+                case 6:
+                    
                 default:
                     System.out.println("Pilihan tidak valid. Silakan coba lagi.");
         }
