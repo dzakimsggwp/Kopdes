@@ -8,6 +8,8 @@ public class Transaction {
     private int totalBelanja;
     private int uangBayar;
     private int kembalian;
+    private int diskonPoin;
+    private int totalAkhir;
     private static int jumlahTransaksi = 0;
     Scanner in = new Scanner(System.in);
 
@@ -27,22 +29,22 @@ public class Transaction {
         }
 
         totalBelanja = cart.hitungTotal();
+        totalAkhir = totalBelanja;
         displayRincian();
     }
 
-    public void displayRincian() {
+    public void displayRincian(){
         System.out.println("\n===== RINCIAN TRANSAKSI =====");
         System.out.println("ID Transaksi: " + transactionId);
         System.out.println("Nama Member: " + member.getMembername());
         System.out.println("Total Belanja: Rp" + totalBelanja);
-        System.out.println("Diskon Poin: Rp" + klaimPoin());
-        totalBelanja -= klaimPoin();
-        System.out.println("Total yang harus dibayar: Rp" + totalBelanja);
+        System.out.println("Diskon Poin: Rp" + diskonPoin);
+        System.out.println("Total yang harus dibayar: Rp" + totalAkhir);
         System.out.println("Status: " + status);
     }
 
     public boolean prosesPembayaran(int uangBayar) {
-        if (uangBayar < totalBelanja) {
+        if (uangBayar < totalAkhir) {
             System.out.println("Uang pembayaran tidak mencukupi!");
             return false;
         }
@@ -55,42 +57,41 @@ public class Transaction {
     }
 
     public void hitungKembalian() {
-        kembalian = uangBayar - totalBelanja;
+        kembalian = uangBayar - totalAkhir;
     }
 
     public void selesaikanTransaksi() {
-        int poin = totalBelanja / 1000;
-
-        member.addPoints(totalBelanja);
+        int poin = totalAkhir / 1000;
+        member.addPoints(poin);
         status = "Selesai";
 
         System.out.println("\n===== PEMBAYARAN BERHASIL =====");
         System.out.println("Uang Bayar: Rp" + uangBayar);
         System.out.println("Kembalian: Rp" + kembalian);
-        System.out.println("Poin Diperoleh: " + poin);
+        System.out.println("Poin Diperoleh: " + member.getMemberPoints());
 
         cart.kosongkanKeranjang();
     }
 
-    public int klaimPoin() {
-        int poin = member.getMemberPoints();
-        if (poin <= 0) {
+    public void klaimPoin() {
+        if (member.getMemberPoints() <= 0) {
             System.out.println("Anda tidak memiliki poin untuk diklaim.");
-            return 0;
+            return;
         }
+        int poin = totalAkhir / 1000;
 
         System.out.println("Anda memiliki " + poin + " poin.");
         System.out.print("Apakah Anda ingin mengklaim poin ini? (y/n): ");
         String pilihan = in.nextLine();
 
         if (pilihan.equalsIgnoreCase("y")) {
-            int diskon = poin * 100; 
-            System.out.println("Poin berhasil diklaim! Anda mendapatkan diskon sebesar Rp" + diskon);
+            diskonPoin = poin * 100; 
+            totalAkhir = totalBelanja - diskonPoin;
+            System.out.println("Poin berhasil diklaim! Anda mendapatkan diskon sebesar Rp" + diskonPoin);
             member.addPoints(-poin);
-            return diskon;
         } else {
             System.out.println("Klaim poin dibatalkan.");
-            return 0;
+            return;
         }
     }
 

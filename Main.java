@@ -7,6 +7,7 @@ public class Main {
         int jumlahMember = 0;
         Membership memberAktif = null;
         boolean login = false;
+        Transaction transaksi = null;
         
         for (;;) {
             System.out.println("\n======== KOPERASI DESA MERAH PUTIH ========");
@@ -100,6 +101,42 @@ public class Main {
                 case 4:
                     memberAktif.getCart().lihatKeranjang();
                     break;
+                case 5:
+                    if (memberAktif == null) {
+                    System.out.println("Silakan login terlebih dahulu!");
+                    break;
+                    }
+
+                    if (memberAktif.getCart().hitungTotal() <= 0) {
+                        System.out.println("Keranjang masih kosong!");
+                        break;
+                    }
+
+                    transaksi = new Transaction(memberAktif, memberAktif.getCart());
+
+                    transaksi.checkout();
+                    transaksi.displayRincian();
+
+                    System.out.print("Masukkan uang pembayaran: Rp");
+                    int uangBayar = in.nextInt();
+                    in.nextLine();
+
+                    transaksi.prosesPembayaran(uangBayar);
+                    break;
+                case 6:
+                    if (memberAktif == null) {
+                        System.out.println("Silakan login terlebih dahulu!");
+                        break;
+                    }
+
+                    if (transaksi == null) {
+                        System.out.println("Belum ada transaksi yang dapat digunakan!");
+                        break;
+                    }
+
+                    System.out.println("\n===== KLAIM POIN =====");
+                    transaksi.klaimPoin();
+                    break;
                 case 7:
                     if (!login) {
                         System.out.println("Anda belum login!");
@@ -109,30 +146,9 @@ public class Main {
                     login = false;
                     memberAktif = null;
                     break;
-                case 5:
-                    if (memberAktif == null) {
-                        System.out.println("Silakan login terlebih dahulu!");
-                        break;
-                        }
-                    if (memberAktif.getCart().hitungTotal() <= 0) {
-                        System.out.println("Keranjang masih kosong!");
-                        break;
-                    }
-                    Transaction transaksi = new Transaction(memberAktif, memberAktif.getCart());
-
-                    transaksi.checkout();
-
-                    System.out.print("Masukkan uang pembayaran: Rp");
-                    int uangBayar = in.nextInt();
-                    in.nextLine();
-
-                    transaksi.prosesPembayaran(uangBayar);
-                    break;
                 case 8:
                     System.out.println("Terima kasih telah menggunakan layanan kami.");
                     return;
-                case 6:
-                    
                 default:
                     System.out.println("Pilihan tidak valid. Silakan coba lagi.");
         }

@@ -66,17 +66,8 @@ public class Membership {
         System.out.println("Poin Member: " + memberPoints);
     }
 
-    public void addPoints(int totalBelanja) {
-        memberPoints += totalBelanja / 1000;
-    }
-
-    public void redeemPoints(int points) {
-        if (memberPoints >= points) {
-            memberPoints -= points;
-            System.out.println("Poin berhasil ditukarkan!");
-        } else {
-            System.out.println("Poin tidak cukup untuk ditukarkan.");
-        }
+    public void addPoints(int poin) {
+        memberPoints += poin;
     }
 
     public void updateMember(Scanner in) {
