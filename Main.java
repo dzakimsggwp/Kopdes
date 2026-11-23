@@ -16,9 +16,8 @@ public class Main {
             System.out.println("3. Lihat Menu");
             System.out.println("4. Lihat Keranjang");
             System.out.println("5. Checkout");
-            System.out.println("6. Klaim Poin");
-            System.out.println("7. Logout");
-            System.out.println("8. Keluar");
+            System.out.println("6. Logout");
+            System.out.println("7. Keluar");
             System.out.print("Pilih menu: ");
             int choice = in.nextInt();
             in.nextLine(); 
@@ -115,7 +114,7 @@ public class Main {
                     transaksi = new Transaction(memberAktif, memberAktif.getCart());
 
                     transaksi.checkout();
-                    transaksi.displayRincian();
+                    transaksi.klaimPoin();
 
                     System.out.print("Masukkan uang pembayaran: Rp");
                     int uangBayar = in.nextInt();
@@ -124,20 +123,6 @@ public class Main {
                     transaksi.prosesPembayaran(uangBayar);
                     break;
                 case 6:
-                    if (memberAktif == null) {
-                        System.out.println("Silakan login terlebih dahulu!");
-                        break;
-                    }
-
-                    if (transaksi == null) {
-                        System.out.println("Belum ada transaksi yang dapat digunakan!");
-                        break;
-                    }
-
-                    System.out.println("\n===== KLAIM POIN =====");
-                    transaksi.klaimPoin();
-                    break;
-                case 7:
                     if (!login) {
                         System.out.println("Anda belum login!");
                         break;
@@ -146,7 +131,7 @@ public class Main {
                     login = false;
                     memberAktif = null;
                     break;
-                case 8:
+                case 7:
                     System.out.println("Terima kasih telah menggunakan layanan kami.");
                     return;
                 default:

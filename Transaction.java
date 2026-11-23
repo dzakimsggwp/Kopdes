@@ -68,31 +68,38 @@ public class Transaction {
         System.out.println("\n===== PEMBAYARAN BERHASIL =====");
         System.out.println("Uang Bayar: Rp" + uangBayar);
         System.out.println("Kembalian: Rp" + kembalian);
-        System.out.println("Poin Diperoleh: " + member.getMemberPoints());
+        System.out.println("Poin Diperoleh: " + poin);
+        System.out.println("Total Poin Member: " + member.getMemberPoints());
 
         cart.kosongkanKeranjang();
     }
 
     public void klaimPoin() {
-        if (member.getMemberPoints() <= 0) {
+        if (!status.equals("Belum dibayar")) {
+        System.out.println("Transaksi sudah selesai atau tidak dapat menggunakan poin!");
+        return;
+}
+        int poin = member.getMemberPoints();
+
+        if (poin <= 0) {
             System.out.println("Anda tidak memiliki poin untuk diklaim.");
             return;
         }
-        int poin = totalAkhir / 1000;
 
         System.out.println("Anda memiliki " + poin + " poin.");
         System.out.print("Apakah Anda ingin mengklaim poin ini? (y/n): ");
         String pilihan = in.nextLine();
 
         if (pilihan.equalsIgnoreCase("y")) {
-            diskonPoin = poin * 100; 
+            diskonPoin = Math.min(poin * 100, totalBelanja);
             totalAkhir = totalBelanja - diskonPoin;
-            System.out.println("Poin berhasil diklaim! Anda mendapatkan diskon sebesar Rp" + diskonPoin);
-            member.addPoints(-poin);
+
+            int poinDigunakan = diskonPoin / 100;
+            member.addPoints(-poinDigunakan);
         } else {
             System.out.println("Klaim poin dibatalkan.");
-            return;
         }
     }
+    
 
 }
