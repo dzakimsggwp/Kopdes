@@ -5,7 +5,7 @@ public class Cart {
     private static int[] jumlahBeli = new int[100];
     private static int jumlahItem = 0;
 
-     public static void tambahKeKeranjang(Scanner in) {
+    public static void tambahKeKeranjang(Scanner in) {
         while (true) {
             System.out.println("\nKetik kode produk untuk dimasukkan ke keranjang (ketik 0 jika selesai)");
             System.out.print("Kode produk: ");
